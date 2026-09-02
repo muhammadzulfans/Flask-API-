@@ -21,12 +21,12 @@ else:
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
-        "status": "Server Flask ARIMA Prediksi Penjualan Aktif!",
+        "status": "Server Flask ARIMA Prediksi Stok Pembelian Aktif!",
         "total_model_loaded": len(master_models)
     })
 
 
-# --- ENDPOINT PREDIKSI PENJUALAN UNTUK BACKEND EXPRESS ---
+# --- ENDPOINT PREDIKSI STOK PEMBELIAN UNTUK BACKEND EXPRESS ---
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.json
@@ -44,7 +44,7 @@ def predict():
     try:
         model = master_models[key_unik]
 
-        # Ramal untuk 1 periode ke depan (Prediksi Penjualan)
+        # Ramal untuk 1 periode ke depan (Prediksi Stok Pembelian)
         prediksi_array = model.predict(n_periods=1)
         angka_prediksi = int(round(float(prediksi_array.iloc[0])))
 
@@ -55,7 +55,7 @@ def predict():
             "status": "success",
             "cabang": cabang,
             "kode_cat": kode_cat,
-            "prediksi_penjualan": angka_prediksi  # Diubah dari rekomendasi_stok
+            "prediksi_stok_pembelian": angka_prediksi  # Diubah dari rekomendasi_stok
         })
 
     except Exception as e:
